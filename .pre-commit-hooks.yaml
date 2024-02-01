@@ -1,0 +1,7 @@
+- id: update-dependencies
+  name: update-dependencies
+  description: "Updates python dependencies."
+  language: docker
+  entry: /bin/bash /opt/update_dependencies.sh
+  pass_filenames: false
+  files: ^(.*/)?(poetry\.lock|pyproject\.toml)$
