@@ -1,10 +1,10 @@
-FROM docker.io/library/python:3.10.10-slim
+FROM python:3.10.10-slim
 
 RUN apt-get update \
-    && apt-get install -y \
-        python3 \
+    && apt-get install -y --no-install-recommends \
+        jq \
         curl \
-        jq
+    && rm -rf /var/lib/apt/lists/*
 
 ENV PIP_DEFAULT_TIMEOUT=100 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
@@ -14,9 +14,8 @@ ENV PIP_DEFAULT_TIMEOUT=100 \
 
 WORKDIR /opt
 
-RUN pip install "poetry==$POETRY_VERSION"
 RUN pip install "cyclonedx-bom==$CYCLONEDX_VERSION"
-
-RUN curl -L "https://repo.eclipse.org/service/local/artifact/maven/redirect?r=dash-licenses&g=org.eclipse.dash&a=org.eclipse.dash.licenses&v=LATEST" -o /opt/dash.jar
+RUN pip install "poetry==$POETRY_VERSION"
+RUN poetry self add poetry-plugin-export
 
 COPY update_dependencies.sh /opt
