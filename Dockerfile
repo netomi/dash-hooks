@@ -9,13 +9,13 @@ RUN apt-get update \
 ENV PIP_DEFAULT_TIMEOUT=100 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
     PIP_NO_CACHE_DIR=1 \
-    POETRY_VERSION=1.7.1 \
+    POETRY_VERSION=1.8.2 \
     CYCLONEDX_VERSION=4.0.0
 
 WORKDIR /opt
 
 RUN pip install "cyclonedx-bom==$CYCLONEDX_VERSION"
 RUN pip install "poetry==$POETRY_VERSION"
-RUN poetry self add poetry-plugin-export
+RUN poetry self add poetry-plugin-export@1.7.0
 
 COPY update_dependencies.sh /opt
